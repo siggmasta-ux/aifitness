@@ -1,8 +1,3 @@
-- name: Debug Event
-  run: |
-    echo "Event: $GITHUB_EVENT_NAME"
-    cat $GITHUB_EVENT_PATH
-
 name: Studio Auslastung
 
 on:
