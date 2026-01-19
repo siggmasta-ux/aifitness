@@ -9,12 +9,13 @@ response.raise_for_status()
 
 data = response.json()
 
-# Der tatsächliche Feldname im JSON
-# Meist liefert die API z.B. {"utilizationPercent": 4}
-wert = data.get("utilizationPercent")
+# aktuellen Zeitslot finden
+current_items = [item for item in data["items"] if item.get("isCurrent")]
 
-if wert is None:
-    raise ValueError(f"Ungültige API-Antwort: {data}")
+if not current_items:
+    raise ValueError(f"Kein aktueller Zeitslot gefunden: {data}")
+
+wert = current_items[0]["percentage"]
 
 zeit = datetime.now().isoformat()
 
