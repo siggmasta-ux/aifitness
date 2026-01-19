@@ -30,5 +30,3 @@ jobs:
           git add werte.csv
           git commit -m "Neue Studioauslastung" || echo "Keine Änderung"
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
