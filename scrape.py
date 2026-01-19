@@ -1,23 +1,20 @@
 import requests
 from datetime import datetime
 
-API_URL = "https://www.ai-fitness.de/api/utilization?studio=duisburg-innenhafen"
+API_URL = "https://www.ai-fitness.de/connect/v1/studio/1279902650/utilization"
 DATEI = "werte.csv"
 
-r = requests.get(API_URL, timeout=30)
-r.raise_for_status()
+response = requests.get(API_URL, timeout=30)
+response.raise_for_status()
 
-data = r.json()
+data = response.json()
 
-# robust: wir prüfen mehrere mögliche Feldnamen
-wert = (
-    data.get("occupiedPercent")
-    or data.get("utilization")
-    or data.get("occupancy")
-)
+# Der tatsächliche Feldname im JSON
+# Meist liefert die API z.B. {"utilizationPercent": 4}
+wert = data.get("utilizationPercent")
 
 if wert is None:
-    raise ValueError(f"Kein Auslastungswert gefunden: {data}")
+    raise ValueError(f"Ungültige API-Antwort: {data}")
 
 zeit = datetime.now().isoformat()
 
