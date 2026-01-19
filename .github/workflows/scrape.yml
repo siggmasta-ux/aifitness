@@ -1,12 +1,12 @@
 name: Studio Auslastung
 
-permissions:
-  contents: write
-
 on:
   schedule:
     - cron: "*/5 * * * *"
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   run:
@@ -28,7 +28,7 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add werte.csv
-          git commit -m "Neue Studioauslastung" || echo "Keine Änderung"  
+          git commit -m "Neue Studioauslastung" || echo "Keine Änderung"
           git push
         env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
