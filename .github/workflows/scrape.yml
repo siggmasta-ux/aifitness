@@ -26,17 +26,21 @@ jobs:
       - name: Skript ausführen
         run: python scrape.py
 
-- name: Daten speichern
-  run: |
-    git config user.name "github-actions"
-    git config user.email "actions@github.com"
+      - name: Daten speichern
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
 
-    git pull --rebase origin main
+          # Änderungen sichern
+          git stash push -m "before pull" --include-untracked
 
-    python scrape.py
+          # Remote holen
+          git pull --rebase origin main
 
-    git add werte.csv
-    git commit -m "Neue Studioauslastung" || echo "Keine Änderungen"
+          # Änderungen zurückholen
+          git stash pop
 
-    git push
-
+          # commit & push
+          git add werte.csv
+          git commit -m "Neue Studioauslastung" || echo "Keine Änderungen"
+          git push
